@@ -7,10 +7,12 @@ const second_filters = 64
 const third_filters = 128
 const dropout_conv = 0.3
 const dropout_dense = 0.3
+const SIZE_W = 96
+const SIZE_H = 96
 
 const model = tf.sequential();
 model.add(tf.layers.conv2d({
-  inputShape: [96, 96, 3],
+  inputShape: [SIZE_W, SIZE_H, 3],
   filters: first_filters,
   kernelSize: kernel_size,
   activation: 'relu',

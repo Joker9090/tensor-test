@@ -5,28 +5,33 @@ const path = require('path');
 const TRAIN_IMAGES_DIR = './data/train';
 const TEST_IMAGES_DIR = './data/test';
 
+const SIZE_W = 96
+const SIZE_H = 96
+const FORMAT = "png"
+
 function loadImages(dataDir) {
   const images = [];
   const labels = [];
   
   var files = fs.readdirSync(dataDir);
   for (let i = 0; i < files.length; i++) { 
-    if (!files[i].toLocaleLowerCase().endsWith(".png")) {
+    if (!files[i].toLocaleLowerCase().endsWith("."+FORMAT)) {
       continue;
     }
-
+    
     var filePath = path.join(dataDir, files[i]);
     
     var buffer = fs.readFileSync(filePath);
-    var imageTensor = tf.node.decodeImage(buffer)
-      .resizeNearestNeighbor([96,96])
+    
+    var imageTensor = tf.node.decodeImage(buffer,3)
+      .resizeNearestNeighbor([SIZE_W,SIZE_H])
       .toFloat()
       .div(tf.scalar(255.0))
       .expandDims();
     images.push(imageTensor);
 
-    var hasTuberculosis = files[i].toLocaleLowerCase().endsWith("_1.png");
-    labels.push(hasTuberculosis ? 1 : 0);
+    var InvalidFormat = files[i].toLocaleLowerCase().indexOf("badQuality") != -1;
+    labels.push(InvalidFormat ? 1 : 0);
   }
 
   return [images, labels];

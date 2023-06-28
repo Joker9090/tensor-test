@@ -1,3 +1,6 @@
+const SIZE_W = 96
+const SIZE_H = 96
+
 $("#image-selector").change(function () {
 	let reader = new FileReader();
 	reader.onload = function () {
@@ -24,7 +27,7 @@ $("#predict-button").click(async function () {
 	
 	// Pre-process the image
 	let tensor = tf.browser.fromPixels(image)
-		.resizeNearestNeighbor([96,96]) // change the image size here
+		.resizeNearestNeighbor([SIZE_W,SIZE_H]) // change the image size here
 		.toFloat()
 		.div(tf.scalar(255.0))
 		.expandDims();

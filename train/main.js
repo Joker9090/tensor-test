@@ -2,7 +2,7 @@ const tf = require('@tensorflow/tfjs-node-gpu');
 
 const data = require('./data');
 const model = require('./model');
-
+const EPOCHS = 4
 async function run(epochs, batchSize, modelSavePath) {
   data.loadData();
 
@@ -33,4 +33,4 @@ async function run(epochs, batchSize, modelSavePath) {
   }
 }
 
-run(100, 32, './model');
+run(EPOCHS, 32, './model');
